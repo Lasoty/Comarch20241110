@@ -1,5 +1,6 @@
 ﻿using BibliotekarzBlazor.Api.Services;
 using BibliotekarzBlazor.Shared.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BibliotekarzBlazor.Api.Controllers;
@@ -21,6 +22,7 @@ public class BooksController : ControllerBase
         return Ok(bookService.GetAll());
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
@@ -33,6 +35,7 @@ public class BooksController : ControllerBase
         return Ok(book);
     }
 
+    [Authorize(Roles = "Admin")] //Weryfikacji użytkownika możemy również dokonywać w backendzie. Opcjonalnie weryfikujemy rolę. Atrybut Authorize może być też użyty na poziomie całego kontrolera. 
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] BookDto book)
     {

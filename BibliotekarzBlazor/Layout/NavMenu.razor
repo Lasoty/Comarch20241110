@@ -1,13 +1,28 @@
-﻿<MudNavMenu>
+﻿@using Microsoft.AspNetCore.Components.Authorization
+<MudNavMenu>
     <MudText Typo="Typo.h6" Class="px-4">Bibliotekarz</MudText>
     <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary">Zarządzanie książkami</MudText>
-    <MudDivider Class="my-2"/>
+    <MudDivider Class="my-2" />
     <MudNavLink Href="/">Dashboard</MudNavLink>
-    <MudNavGroup Title="Książki" Expanded="true">
-        <MudNavLink Href="/add-book">Dodaj</MudNavLink>
-        <MudNavLink Href="/edit-book">Edycja</MudNavLink>
-    </MudNavGroup>
+
     <MudNavLink Href="/about">About</MudNavLink>
-    <MudNavLink Href="/register">Rejestracja</MudNavLink>
-    <MudNavLink Href="/login">Logowanie</MudNavLink>
+
+    @* 
+        AuthorizeView służy do warunkowego wyświetlania elementów na stronie. Możemy dodatkowo określić jakiej roli dotyczy ten widok poprzez użycie 
+        właściwości Roles (opcjonalnie).
+    *@
+
+    <AuthorizeView Roles="Admin,User">
+        <Authorized>
+            <MudNavGroup Title="Książki" Expanded="true">
+                <MudNavLink Href="/add-book">Dodaj</MudNavLink>
+                <MudNavLink Href="/edit-book">Edycja</MudNavLink>
+            </MudNavGroup>
+        </Authorized>
+
+        <NotAuthorized>
+            <MudNavLink Href="/register">Rejestracja</MudNavLink>
+            <MudNavLink Href="/login">Logowanie</MudNavLink>
+        </NotAuthorized>
+    </AuthorizeView>
 </MudNavMenu>

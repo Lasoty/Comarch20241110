@@ -47,16 +47,12 @@ public class Program
 
         builder.Services.AddAuthorization(options =>
         {
-            options.AddPolicy("AdminPolicy", policy => 
-                policy.RequireClaim(ClaimTypes.Role, "Admin"));
+            options.AddPolicy("AdminPolicy", policy =>
+            {
+                policy.RequireClaim(ClaimTypes.Role, "Admin");
+                policy.RequireClaim(ClaimTypes.Role, "User"); // Wszystkie role musz¹ zostaæ zarejestrowane, by móc ich u¿ywaæ lub weryfikowaæ.
+            });
         });
-
-        //builder.Services.AddAuthentication(
-        //    opt => {
-        //    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        //    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        //    }
-        //)
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -97,6 +93,7 @@ public class Program
             using (AppDbContext? dbContext = app.Services.CreateScope().ServiceProvider.GetService<AppDbContext>())
             {
                 dbContext?.Database.Migrate();
+                Seeder.Seed(dbContext!);
             }
         //}
 

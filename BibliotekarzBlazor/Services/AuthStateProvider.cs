@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BibliotekarzBlazor.Services;
 
+/// <summary>
+/// Nasza implementacja AuthenticationStateProvidera. Pozwala dodatkowo zapisać użytkownika w local storage przeglądarki. (Nominalnie zapisywani są w ciasteczkach)
+/// </summary>
+/// <param name="httpClient"></param>
+/// <param name="localStorage"></param>
 public class AuthStateProvider (HttpClient httpClient, ILocalStorageService localStorage) 
     :AuthenticationStateProvider
 {

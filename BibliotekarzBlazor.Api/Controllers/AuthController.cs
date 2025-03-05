@@ -94,12 +94,11 @@ public class AuthController(
                     {
                         new(ClaimTypes.Name, user.UserName!),
                         new(ClaimTypes.Email, user.Email!),
-                        new("PhoneNumber", user.PhoneNumber!),
                         new("Id", user.Id!),
                     };
 
                     var roles = await userManager.GetRolesAsync(user);
-                    claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
+                    claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r))); //Do tokena JWT dodajemy role. TO WAŻNE.
 
                     var tokenOptions = new JwtSecurityToken(
                         issuer: keyOptions.Issuer,

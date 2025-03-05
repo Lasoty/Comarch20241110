@@ -1,9 +1,15 @@
 ﻿@using BibliotekarzBlazor.Pages.Authentication
 @using Microsoft.AspNetCore.Components.Authorization
+
+@* CascadingAuthenticationState przekazuje informacje o zalogowanym użytkowniku wgłąb aplikacji (do wszystkich komponentów wewnątrz) *@
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" >
+            @* 
+                AuthorizeRouteView używamy aby przekierować przekierować niezalogowanego użytkownika na stronę logowania (jeśli strona tego wymaga)
+                Przekierowanie robimy za pomocą RedirectToLogin (naszego autorskiego komponentu)
+            *@
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <Authorizing>
                     <p>Please wait, we are authorizing the user!</p>
                 </Authorizing>
@@ -11,7 +17,7 @@
                     <RedirectToLogin></RedirectToLogin>
                 </NotAuthorized>
             </AuthorizeRouteView>
-            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
         </Found>
         <NotFound>
             <PageTitle>Not found</PageTitle>
